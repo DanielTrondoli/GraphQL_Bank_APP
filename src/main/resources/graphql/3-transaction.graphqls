@@ -1,0 +1,33 @@
+scalar LocalDateTime
+
+type Transaction{
+	id: ID!
+	amount: Float!
+	status: String
+	type: String!
+	date: LocalDateTime
+	accountSource: Account
+	accountTarget: Account
+}
+
+input TransactionInput {
+	id: ID
+	amount: Float!
+	status: String
+	type: String!
+	date: LocalDateTime
+	accountSourceID: ID
+	accountTargetID: ID
+}
+
+extend type Query {
+	transaction(id:ID!):Transaction
+	transactions:[Transaction]
+}
+
+extend type Mutation {	
+	deleteTransaction(id:ID!):Boolean!
+	deposit(targetId: ID!, amount: Float!): Boolean!
+	withdraw(sourceId: ID!, amount: Float!): Boolean!
+	transfer(sourceId: ID!, targetId: ID!, amount: Float!): Boolean!
+}

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.dtrondoli.domain.Account;
 import com.dtrondoli.domain.Transaction;
+import com.dtrondoli.kafka.producer.TransactionProducer;
 import com.dtrondoli.repository.AccountRepository;
 import com.dtrondoli.repository.TransactionRepository;
 
@@ -58,8 +59,10 @@ public class TransactionService {
 		default:
 			return null;
 		}
-
-		return repo.save(t);
+		
+		TransactionProducer tp = new TransactionProducer();
+		tp.sendTransaction(t);
+		return null;//repo.save(t);
 	}
 
 	private boolean validateWithdraw(Transaction t) {

@@ -1,0 +1,27 @@
+{
+	"type": "record",
+	"name": "AvroTransaction",
+	"namespace": "com.dtrondoli.kafka.avro.generated",
+	"fields": [
+		{
+			"name": "id",
+			"type": "long" 
+		},
+		{
+			"name": "accountSource",
+			"type": ["null", "long"] 
+		},
+		{
+			"name": "accountTarget",
+			"type": ["null", "long"]
+		},
+		{
+			"name": "amount",
+			"type": "double"
+		},
+		{
+			"name": "type",
+			"type": "string"
+		}
+	]
+}

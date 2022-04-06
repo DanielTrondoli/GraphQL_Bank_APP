@@ -19,5 +19,6 @@ extend type Query {
 
 extend type Mutation {
 	saveAccount(account: AccountInput!): Account!
-	deleteAccount(id:ID!): Boolean!	
+	deleteAccount(id:ID!): Boolean!
+	attBalance(id: ID!, newBalance: Float!): Boolean!
 }

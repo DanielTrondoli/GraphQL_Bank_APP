@@ -36,4 +36,8 @@ public class AccountGraphQL implements GraphQLQueryResolver, GraphQLMutationReso
 	public boolean deleteAccount(Long id) {
 		return service.delete(id);
 	}
+	
+	public boolean attBalance(Long id, Float newBalance) {
+		return service.attBalance(id, newBalance) != null;
+	}
 }

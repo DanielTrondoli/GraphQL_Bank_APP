@@ -5,10 +5,12 @@
  */
 package com.dtrondoli.kafka.avro.generated;
 
-import org.apache.avro.message.BinaryMessageDecoder;
-import org.apache.avro.message.BinaryMessageEncoder;
-import org.apache.avro.message.SchemaStore;
+import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
+import org.apache.avro.util.Utf8;
+import org.apache.avro.message.BinaryMessageEncoder;
+import org.apache.avro.message.BinaryMessageDecoder;
+import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class AvroTransaction extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
@@ -646,13 +648,6 @@ public class AvroTransaction extends org.apache.avro.specific.SpecificRecordBase
       }
     }
   }
-
-@Override
-public String toString() {
-	return "AvroTransaction [id=" + id + ", accountSource=" + accountSource + ", accountTarget=" + accountTarget
-			+ ", amount=" + amount + ", type=" + type + "]";
-}  
-  
 }
 
 

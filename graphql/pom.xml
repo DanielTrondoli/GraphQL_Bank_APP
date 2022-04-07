@@ -14,7 +14,7 @@
 	<name>graphql_bank_app</name>
 	<description>GraphQL Spring Boot project</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

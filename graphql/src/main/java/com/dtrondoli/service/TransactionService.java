@@ -60,9 +60,12 @@ public class TransactionService {
 			return null;
 		}
 		
+		t = repo.save(t);
+		if(t== null) return t;
+		
 		TransactionProducer tp = new TransactionProducer();
 		tp.sendTransaction(t);
-		return null;//repo.save(t);
+		return t;
 	}
 
 	private boolean validateWithdraw(Transaction t) {

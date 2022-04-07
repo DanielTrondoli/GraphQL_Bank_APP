@@ -24,7 +24,7 @@ import com.dtrondoli.kafka.avro.generated.AvroTransaction;
 public class TransactionListener {
 	
 	private final static String QUERY_ACCOUNT_INFO = "{\"query\":\"{ account(id: %d){ status, balance }}\"}"; 
-	private final static String MUTATION_ATT_BALANCE = "{\"query\":\"mutation{ attBalance(id: %d, newBalance: %.2f)}\"}";
+	private final static String MUTATION_ATT_BALANCE = "{\"query\":\"mutation{ attBalance(transactionId: %d, accountId: %d, newBalance: %.2f)}\"}";
 	private final static String STATUS_OPEN = "OPEN";
 	
 	@KafkaListener(topics = "dtbank.transactions")
@@ -61,9 +61,9 @@ public class TransactionListener {
 			var newBalanceSource = sourceBalance - t.getAmount();
 			var newBalanceTarget = targetBalance + t.getAmount();
 			
-			success = processTransaction(t.getAccountSource(), newBalanceSource);
+			success = processTransaction(t.getId(), t.getAccountSource(), newBalanceSource);
 			if(success) {
-				success = processTransaction(t.getAccountTarget(), newBalanceTarget);
+				success = processTransaction(t.getId(), t.getAccountTarget(), newBalanceTarget);
 			}
 		}
 		
@@ -82,7 +82,7 @@ public class TransactionListener {
 		var status = (String) accountInfo.get("status");
 		if(status.equals("OPEN") && balance.doubleValue() - t.getAmount() >= 0) {
 			var newBalance = balance.doubleValue() - t.getAmount();
-			success = processTransaction(t.getAccountSource(), newBalance);
+			success = processTransaction(t.getId(), t.getAccountSource(), newBalance);
 		}
 		
 		if(success) {
@@ -101,7 +101,7 @@ public class TransactionListener {
 		var status = (String) accountInfo.get("status");
 		if(status.equals("OPEN")) {
 			var newBalance = balance.doubleValue() + t.getAmount();
-			success = processTransaction(t.getAccountTarget(), newBalance);
+			success = processTransaction(t.getId(), t.getAccountTarget(), newBalance);
 		}
 		
 		if(success) {
@@ -111,10 +111,10 @@ public class TransactionListener {
 		}
 	}
 	
-	private boolean processTransaction(Long id, double newBalance) {		
+	private boolean processTransaction(Long transactionId, Long acountId, double newBalance) {		
 		boolean success = false;
 		
-		String queryJson = String.format(Locale.US, MUTATION_ATT_BALANCE, id, newBalance);
+		String queryJson = String.format(Locale.US, MUTATION_ATT_BALANCE, transactionId, acountId, newBalance);
 		HttpResponse<String> response = executeGraphQLRequest(queryJson);
 		
 		if(response.statusCode() == 200) {

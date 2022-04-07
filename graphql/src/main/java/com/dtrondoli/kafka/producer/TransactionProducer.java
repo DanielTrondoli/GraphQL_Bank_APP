@@ -21,7 +21,7 @@ public class TransactionProducer {
 	public void sendTransaction(Transaction t) {		
 		
 		AvroTransaction avro = new AvroTransaction();
-		avro.setId(0L);
+		avro.setId(t.getId());
 		avro.setAmount(t.getAmount());
 		avro.setType(t.getType());
 		avro.setAccountSource(t.getAccountSource() != null ? t.getAccountSource().getId() : null);
